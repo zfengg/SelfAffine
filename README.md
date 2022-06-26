@@ -5,7 +5,7 @@ A collection of simple [matlab](https://ww2.mathworks.cn/en/products/matlab.html
 ## Usage
 Straight steps to use:
 
-- Download or clone the repository.
+- Download or clone this repository.
 - Open the scripts with [matlab](https://ww2.mathworks.cn/en/products/matlab.html)
 - Change the parameters in the [`settings`](https://github.com/zfengg/SelfAffine/blob/main/SelfAffine3D.m#L6) section of the script to what you need, e.g., setting a new [IFS](https://en.wikipedia.org/wiki/Interval_family_system). Then run the scripts. 🎉
 
