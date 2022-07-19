@@ -22,7 +22,7 @@ translations = {[0; 0], ...
 shapeInit = [0 1 1 0;
     0 0 1 1];
 
-numItrs = 3; % iteration time
+numItrs = 2; % iteration time
 
 % plot settings
 showTitle = true;
@@ -34,7 +34,7 @@ alphaFaces = 1;
 colorFaces = 'none';
 colorEdges = 'b';
 fixAxisRatio = true;
-% cirles
+% circles
 colorCircle = 'k';
 widthCircle = 0.5;
 styleLine = '-';
@@ -73,24 +73,22 @@ colorMarkerEdge = 'r';
 % translations = {[0;0], [1;0], [2;0], [0;1], [2;1], [0;2], [1;2], [2;2]};
 % shapeInit = [0 3 3 0; 0 0 3 3];
 
-% Bedford-McMullen carpet
-% BMh = 2; % horizontal size
-% BMv = 3; % vertical size
-BMselect = [1 0;
-    0 1;
-    1 0]; % select positions
-[BMv, BMh] = size(BMselect);
-BMmat = flipud(BMselect);
-[oneRows, oneCols] = find(BMmat > 0);
-BMsize = length(oneRows);
-BMlinear = [1 / BMh 0; 0 1 / BMv];
-linearMats = cell(1, BMsize);
-translations = cell(1, BMsize);
-for i = 1:BMsize
-    linearMats{i} = BMlinear;
-    translations{i} = [(oneCols(i) - 1) * (1 / BMh); (oneRows(i) - 1) * (1 / BMv)];
-end
-shapeInit = [0 1 1 0; 0 0 1 1];
+% % Bedford-McMullen carpet
+% BMselect = [1 0;
+%     0 1;
+%     1 0]; % select positions
+% [BMv, BMh] = size(BMselect);
+% BMmat = flipud(BMselect);
+% [oneRows, oneCols] = find(BMmat > 0);
+% BMsize = length(oneRows);
+% BMlinear = [1 / BMh 0; 0 1 / BMv];
+% linearMats = cell(1, BMsize);
+% translations = cell(1, BMsize);
+% for i = 1:BMsize
+%     linearMats{i} = BMlinear;
+%     translations{i} = [(oneCols(i) - 1) * (1 / BMh); (oneRows(i) - 1) * (1 / BMv)];
+% end
+% shapeInit = [0 1 1 0; 0 0 1 1];
 
 % % Baranski carpet (with possible overlaps)
 % Bar_h = [0.1 0.3 0.4 0.2]; % horizontal scales
