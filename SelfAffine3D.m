@@ -27,7 +27,7 @@ numItrs = 4;
 showTitle = true;
 showFirstItrs = true;
 numFirstItrs = 2;
-alphaFaces = 0.6;
+alphaFaces = 1;
 colorFaces = 'k';
 colorEdges = 'w'; % 'none'
 
