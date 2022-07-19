@@ -1,4 +1,4 @@
-%% A simple script to plot self-affine sets by iterating polygons
+% A simple script to plot self-affine sets by iterating polygons
 % Zhou Feng @ 2020-10-12
 clc, clf, clear
 tic
@@ -6,31 +6,43 @@ tic
 %% settings
 % IFS linear parts
 linearMats = {[0.25 0; 0 0.25], ...
-        [0.25 0; 0 0.25], ...
-            [0.25 0; 0 0.25], ...
-            [0.25 0; 0 0.25], ...
-            [0.5 0; 0 0.5]};
+    [0.25 0; 0 0.25], ...
+    [0.25 0; 0 0.25], ...
+    [0.25 0; 0 0.25], ...
+    [0.5 0; 0 0.5]};
 
 % IFS translations
 translations = {[0; 0], ...
-            [0.75; 0], ...
-                [0.75; 0.75], ...
-                [0; 0.75], ...
-                [0.25; 0.25]};
+    [0.75; 0], ...
+    [0.75; 0.75], ...
+    [0; 0.75], ...
+    [0.25; 0.25]};
 
 % initial polygon for iteration
 shapeInit = [0 1 1 0;
-        0 0 1 1];
+    0 0 1 1];
 
-numItrs = 5; % iteration time
+numItrs = 3; % iteration time
 
 % plot settings
 showTitle = true;
-showFirstItrs = true;
+showFirstItrs = false;
 numFirstItrs = 2;
+% shapes
+showShapes = true;
 alphaFaces = 1;
-colorFaces = 'k';
-colorEdges = 'none';
+colorFaces = 'none';
+colorEdges = 'b';
+fixAxisRatio = true;
+% cirles
+colorCircle = 'k';
+widthCircle = 0.5;
+styleLine = '-';
+% markers
+showMarkers = true;
+sizeMarker = 36;
+colorMarkerFace = 'r';
+colorMarkerEdge = 'r';
 
 %% Examples
 % ---------------------------------- gaskets --------------------------------- %
@@ -62,12 +74,12 @@ colorEdges = 'none';
 % shapeInit = [0 3 3 0; 0 0 3 3];
 
 % Bedford-McMullen carpet
-BMh = 3; % horizontal size
-BMv = 4; % vertical size
-BMselect = [1 0 0 1;
-        0 0 0 0;
-        0 0 0 0;
-        1 0 0 1]; % select positions
+% BMh = 2; % horizontal size
+% BMv = 3; % vertical size
+BMselect = [1 0;
+    0 1;
+    1 0]; % select positions
+[BMv, BMh] = size(BMselect);
 BMmat = flipud(BMselect);
 [oneRows, oneCols] = find(BMmat > 0);
 BMsize = length(oneRows);
@@ -182,17 +194,17 @@ ptsTotal = cell(numItrs + 1, 1);
 ptsTotal{1} = ptsInit;
 
 for levelNow = 1:numItrs
-
+    
     ptsTmp = zeros(spaceDim, sizeNow * sizeIFS);
-
+    
     for indexFct = 1:sizeIFS
         ptsTmp(:, (indexFct - 1) * sizeNow + 1:indexFct * sizeNow) = ...
             linearMats{indexFct} * ptsNow + translations{indexFct};
     end
-
+    
     ptsNow = ptsTmp;
     sizeNow = size(ptsNow, 2);
-
+    
     ptsTotal{levelNow + 1} = ptsNow;
 end
 
@@ -201,20 +213,43 @@ numShapes = sizeNow / numInitPts;
 facesPlot = kron(ones(numShapes, 1), shapeInitFaces) + ...
     kron((0:(numShapes - 1))' * numInitPts, ones(numInitFaces, 1));
 figure(1)
-patch('Faces', facesPlot, ...
-    'Vertices', ptsNow', ...
-    'FaceColor', colorFaces, ...
-    'EdgeColor', colorEdges, ...
-    'FaceAlpha', alphaFaces)
+% circles
+radii = zeros(numShapes, 1);
+for i = 1:numShapes
+    radii(i) = norm(ptsNow(:, 1+(i-1)*numInitPts));
+end
+viscircles(zeros(length(radii), 2), radii,...
+    'Color', colorCircle,...
+    'LineWidth', widthCircle,....
+    'LineStyle', styleLine);
+hold on
+% shapes
+if showShapes
+    patch('Faces', facesPlot, ...
+        'Vertices', ptsNow', ...
+        'FaceColor', colorFaces, ...
+        'EdgeColor', colorEdges, ...
+        'FaceAlpha', alphaFaces)
+end
+% markers
+if showMarkers
+    scatter(ptsNow(1,1:numInitPts:sizeNow), ptsNow(2,1:numInitPts:sizeNow),...
+        sizeMarker,...
+        'MarkerFaceColor', colorMarkerFace,...
+        'MarkerEdgeColor', colorMarkerEdge)
+end
 set(gca, 'XColor', 'none', 'YColor', 'none')
-
+if fixAxisRatio
+    axis image
+end
 if showTitle
     title(['Iteration time = ', num2str(numItrs)], 'Interpreter', 'latex');
 end
+hold off
 
 if showFirstItrs && numItrs >= numFirstItrs
     figure(2)
-
+    
     for i = 1:numFirstItrs
         subplot(1, numFirstItrs, i)
         sizeTmp = size(ptsTotal{i}, 2);
@@ -227,9 +262,11 @@ if showFirstItrs && numItrs >= numFirstItrs
             'EdgeColor', colorEdges, ...
             'FaceAlpha', alphaFaces)
         set(gca, 'XColor', 'none', 'YColor', 'none')
-        % title(['Iteration time = ', num2str(i-1)], 'Interpreter', 'latex');
+        if fixAxisRatio
+            axis image
+        end
     end
-
+    
 end
 
 %% Show param
