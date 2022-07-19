@@ -1,4 +1,4 @@
-%% A simple script to plot self-affine sets by iterating polygons
+% A simple script to plot self-affine sets by iterating polygons
 % Zhou Feng @ 2020-10-12
 clc, clf, clear
 tic
@@ -63,12 +63,11 @@ fixAxisRatio = true;
 % shapeInit = [0 3 3 0; 0 0 3 3];
 
 % % Bedford-McMullen carpet
-% BMh = 3; % horizontal size
-% BMv = 4; % vertical size
-% BMselect = [1 0 0 1;
-%         0 0 0 0;
-%         0 0 0 0;
-%         1 0 0 1]; % select positions
+% BMselect = [1 0 0;
+%         0 1 0;
+%         0 0 1;
+%         1 0 0]; % select positions
+% [BMv, BMh] = size(BMselect);
 % BMmat = flipud(BMselect);
 % [oneRows, oneCols] = find(BMmat > 0);
 % BMsize = length(oneRows);
