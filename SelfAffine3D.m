@@ -30,6 +30,7 @@ numFirstItrs = 2;
 alphaFaces = 1;
 colorFaces = 'k';
 colorEdges = 'w'; % 'none'
+fixAxisRatio = true;
 
 %% Examples
 % ---------------------------------- sponges --------------------------------- %
@@ -139,6 +140,9 @@ patch('Faces', facesPlot, ...
     'FaceAlpha', alphaFaces)
 view(3)
 set(gca, 'XColor', 'none', 'YColor', 'none', 'ZColor', 'none')
+if fixAxisRatio
+    axis image
+end
 
 if showTitle
     title(['Iteration time = ', num2str(numItrs)], 'Interpreter', 'latex');
@@ -160,6 +164,9 @@ if showFirstItrs && numItrs >= numFirstItrs
             'FaceAlpha', alphaFaces)
         view(3)
         set(gca, 'XColor', 'none', 'YColor', 'none', 'ZColor', 'none')
+        if fixAxisRatio
+            axis image
+        end
         % title(['Iteration time = ', num2str(i-1)], 'Interpreter', 'latex');
     end
 

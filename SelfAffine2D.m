@@ -31,6 +31,7 @@ numFirstItrs = 2;
 alphaFaces = 1;
 colorFaces = 'k';
 colorEdges = 'none';
+fixAxisRatio = true;
 
 %% Examples
 % ---------------------------------- gaskets --------------------------------- %
@@ -207,6 +208,9 @@ patch('Faces', facesPlot, ...
     'EdgeColor', colorEdges, ...
     'FaceAlpha', alphaFaces)
 set(gca, 'XColor', 'none', 'YColor', 'none')
+if fixAxisRatio
+    axis image
+end
 
 if showTitle
     title(['Iteration time = ', num2str(numItrs)], 'Interpreter', 'latex');
@@ -227,7 +231,9 @@ if showFirstItrs && numItrs >= numFirstItrs
             'EdgeColor', colorEdges, ...
             'FaceAlpha', alphaFaces)
         set(gca, 'XColor', 'none', 'YColor', 'none')
-        % title(['Iteration time = ', num2str(i-1)], 'Interpreter', 'latex');
+        if fixAxisRatio
+            axis image
+        end
     end
 
 end
