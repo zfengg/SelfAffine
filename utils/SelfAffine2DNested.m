@@ -5,33 +5,24 @@ tic
 
 %% settings
 % IFS linear parts
-linearMats = {[0.25 0; 0 0.25], ...
-    [0.25 0; 0 0.25], ...
-    [0.25 0; 0 0.25], ...
-    [0.25 0; 0 0.25], ...
-    [0.5 0; 0 0.5]};
+linearMats = {[-1/4 1/5; 1/4 1/5], [-1/4 1/3; 1/4 1/3]};
 
 % IFS translations
 translations = {[0; 0], ...
-    [0.75; 0], ...
-    [0.75; 0.75], ...
-    [0; 0.75], ...
-    [0.25; 0.25]};
+    [1; 0]};
 
 % initial polygon for iteration
-shapeInit = [0 1 1 0;
-    0 0 1 1];
+shapeInit = [-1 2 2 -1;
+    -1/2 -1/2 1 1];
 
-numItrs = 4; % iteration time
+numItrs = 5; % iteration time
 
 % plot settings
 showTitle = true;
-showFirstItrs = false;
-numFirstItrs = 2;
 alphaFaces = 1;
-colorFaces = 'none';
-colorEdges = 'k';
 fixAxisRatio = true;
+shouldFill = true;
+allBlack = false;
 
 %% Examples
 % ---------------------------------- gaskets --------------------------------- %
@@ -175,14 +166,13 @@ numInitPts = size(shapeInit, 2);
 shapeInitFaces = 1:numInitPts;
 
 % colors
-% colorsRGB = {[1 0.4470 0.7410], [0.1500 0.3250 0.9980], [0.0290 0.6940 0.6250], [0.2940 0.5840 0.2560]};
 colorsRGB = {[0 0.4470 0.7410],...
-        [0.8500 0.3250 0.0980],...
-        [0.9290 0.6940 0.1250],...
-        [0.4940 0.1840 0.5560],...
-        [0.4660 0.6740 0.1880],...
-        [0.3010 0.7450 0.9330],...
-        [0.6350 0.0780 0.1840]};
+    [0.8500 0.3250 0.0980],...
+    [0.9290 0.6940 0.1250],...
+    [0.4940 0.1840 0.5560],...
+    [0.4660 0.6740 0.1880],...
+    [0.3010 0.7450 0.9330],...
+    [0.6350 0.0780 0.1840]};
 
 %% Generate points
 ptsInit = shapeInit;
@@ -214,10 +204,20 @@ for i = 1:numItrs+1
     numShapesTmp = sizeTmp / numInitPts;
     facesPlot = kron(ones(numShapesTmp, 1), shapeInitFaces) + ...
         kron((0:(numShapesTmp - 1))' * numInitPts, ones(numInitFaces, 1));
+    if allBlack
+        colorEdges = 'k';
+    else
+        colorEdges = colorsRGB{mod(i+6, length(colorsRGB))+1};
+    end
+    if i == numItrs + 1 && shouldFill
+        colorFaces = colorEdges;
+    else
+        colorFaces = 'none';
+    end
     patch('Faces', facesPlot, ...
         'Vertices', ptsTotal{i}', ...
         'FaceColor', colorFaces, ...
-        'EdgeColor', colorsRGB{mod(i, length(colorsRGB))+1}, ...
+        'EdgeColor', colorEdges, ...
         'FaceAlpha', alphaFaces)
     hold on
 end
@@ -225,32 +225,8 @@ set(gca, 'XColor', 'none', 'YColor', 'none')
 if fixAxisRatio
     axis image
 end
-
-
 if showTitle
     title(['Iteration time = ', num2str(numItrs)], 'Interpreter', 'latex');
-end
-
-if showFirstItrs && numItrs >= numFirstItrs
-    figure(2)
-    
-    for i = 1:numFirstItrs
-        subplot(1, numFirstItrs, i)
-        sizeTmp = size(ptsTotal{i}, 2);
-        numShapesTmp = sizeTmp / numInitPts;
-        facesPlot = kron(ones(numShapesTmp, 1), shapeInitFaces) + ...
-            kron((0:(numShapesTmp - 1))' * numInitPts, ones(numInitFaces, 1));
-        patch('Faces', facesPlot, ...
-            'Vertices', ptsTotal{i}', ...
-            'FaceColor', colorFaces, ...
-            'EdgeColor', colorEdges, ...
-            'FaceAlpha', alphaFaces)
-        set(gca, 'XColor', 'none', 'YColor', 'none')
-        if fixAxisRatio
-            axis image
-        end
-    end
-    
 end
 
 %% Show param
