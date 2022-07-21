@@ -23,6 +23,9 @@ alphaFaces = 1;
 fixAxisRatio = true;
 shouldFill = true;
 allBlack = false;
+% grid
+showGrid = true;
+widthGrid = 0.05;
 
 %% Examples
 % ---------------------------------- gaskets --------------------------------- %
@@ -222,6 +225,11 @@ for i = 1:numItrs+1
     hold on
 end
 set(gca, 'XColor', 'none', 'YColor', 'none')
+if showGrid
+    grid on
+    set(gca, 'xtick', min(shapeInit(1,:)):widthGrid:max(shapeInit(1,:)))
+    set(gca, 'ytick', min(shapeInit(2,:)):widthGrid:max(shapeInit(2,:)))
+end
 if fixAxisRatio
     axis image
 end
