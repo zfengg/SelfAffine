@@ -1,10 +1,10 @@
-% A simple script to plot self-affine sets by iterating polygons
+% A simple script for carpet percolation
 % Zhou Feng @ 2020-10-12
 clc, clf, clear
 tic
 
 %% settings
-p = 0.5; % percolation rate
+p = 0.68; % percolation rate
 numItrs = 4; % iteration time
 
 % carpet setup
@@ -12,8 +12,8 @@ hh = [1/3 1/3 1/3]; % horizontal partition
 vv = [1/3 1/3 1/3]; % vertical partition
 
 % plot settings
-shouldNested = false;
-showTitle = false;
+shouldNested = true;
+showTitle = true;
 alphaFaces = 1;
 fixAxisRatio = true;
 shouldFill = true;
@@ -42,18 +42,7 @@ end
 shapeInit = [0 1 1 0;
              0 0 1 1];
 
-% % Sierpinski gasket
-% cRatio = 1/2;
-% linearMats = cell(1, 3);
-% for i = 1:3
-%     linearMats{i} = cRatio * eye(2);
-% end
-% translations = {[0; 0], [cRatio; 0], [0; cRatio]};
-% shapeInit = [0 1 0; 0 0 1];
-
 %% error handling
-
-
 isCompactible = false;
 
 if length(linearMats) == length(translations)
@@ -164,7 +153,8 @@ if shouldNested
         axis image
     end
     if showTitle
-        title(['Iteration time = ', num2str(numItrs)], 'Interpreter', 'latex');
+        title(['Iteration time = ', num2str(numItrs), '; p = ', num2str(p)],...
+            'Interpreter', 'latex');
     end
 else
     figure(1)
@@ -203,7 +193,8 @@ else
     xlim([shapeInit(1, 1) shapeInit(1, 2)])
     ylim([shapeInit(2, 1) shapeInit(2, 4)])
     if showTitle
-        title(['Iteration time = ', num2str(numItrs)], 'Interpreter', 'latex');
+        title(['Iteration time = ', num2str(numItrs), '; p = ', num2str(p)],...
+            'Interpreter', 'latex');
     end
 end
 
