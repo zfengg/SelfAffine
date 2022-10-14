@@ -24,7 +24,7 @@ fixAxisRatio = true;
 shouldFill = true;
 allBlack = false;
 % grid
-showGrid = true;
+showGrid = false;
 widthGrid = 0.05;
 
 %% Examples
