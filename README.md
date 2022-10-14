@@ -11,12 +11,14 @@ Straight steps to use:
 
 There are several predefined examples in the `Example` section of the scripts, e.g., [here](https://github.com/zfengg/SelfAffine/blob/main/SelfAffine3D.m#L34). You may uncomment the corresponding lines to play with them.
 
-## Remark
+## Simple documentation
 The names of scripts explain which dimension of the IFS they are applied for.
   - [`SelfAffine3D.m`](SelfAffine3D.m): 3D self-affine set.
   - [`SelfAffine2D.m`](SelfAffine2D.m): 2D self-affine set.
   - [`SelfSimilar1D.m`](SelfSimilar1D.m): 1D self-similar set.
   - [`SelfSimilar1DHomo.m`](SelfSimilar1DHomo.m): 1D self-similar set generated from a homogeneous IFS.
+ 
+Also, some scripts for special purposes are included in the folder [`utils`](utils).
 
 ## Some examples
 ### Basic plots
