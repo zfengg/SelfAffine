@@ -19,6 +19,7 @@ The names of scripts explain which dimension of the IFS they are applied for.
   - [`SelfSimilar1DHomo.m`](SelfSimilar1DHomo.m): 1D self-similar set generated from a homogeneous IFS.
 
 ## Some examples
+### Basic plots
 ![Inhomo1D](https://user-images.githubusercontent.com/42152221/175815959-5b924c99-22a6-49d8-a548-7154033dc1eb.png)
 ![FengWangCarpet](https://user-images.githubusercontent.com/42152221/175815993-e5e75c84-36d9-47bb-9f6a-b8a24c795b65.png)
 ![SelfaffineGasket](https://user-images.githubusercontent.com/42152221/175816032-8827f434-7990-47b1-9f4f-6e8b736a0c2d.png)
@@ -26,3 +27,8 @@ The names of scripts explain which dimension of the IFS they are applied for.
 ![SierpinskiPyramid](https://user-images.githubusercontent.com/42152221/175816060-2802c138-533a-49c4-80b0-a7648f43fdf1.png)
 ![Cantor3D](https://user-images.githubusercontent.com/42152221/175816058-148a87e8-01c5-4e58-a02a-f707e5f056d9.png)
 ![BaranskiSponge](https://user-images.githubusercontent.com/42152221/175816008-3ce60591-a6a8-413a-a693-1f7b48238675.png)
+
+### Utils
+![nested](https://user-images.githubusercontent.com/42152221/195899890-c710096e-d218-4e5a-991e-a560b88b5dc2.png)
+![distanceCircles](https://user-images.githubusercontent.com/42152221/195899520-c4f304d7-1b65-480f-bc9e-339b34d0bf68.png)
+![percolation](https://user-images.githubusercontent.com/42152221/195900524-00a318d4-46b9-4c6a-ba98-6df491e7d42c.png)
