@@ -1,5 +1,5 @@
 % A simple script for carpet percolation
-% Zhou Feng @ 2020-10-12
+% Zhou Feng @ 2022-10-15
 clc, clf, clear
 tic
 
