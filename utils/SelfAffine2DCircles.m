@@ -1,4 +1,7 @@
-% A simple script to plot self-affine sets by iterating polygons
+% A simple script for self-affine sets with circles of distances
+% 
+% Prerequisite: Image Processing Toolbox
+% 
 % Zhou Feng @ 2020-10-12
 clc, clf, clear
 tic
@@ -25,7 +28,7 @@ shapeInit = [0 1 1 0;
 numItrs = 2; % iteration time
 
 % plot settings
-showTitle = true;
+showTitle = false;
 showFirstItrs = false;
 numFirstItrs = 2;
 % shapes
