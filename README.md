@@ -34,3 +34,4 @@ Also, some scripts for special purposes are included in the folder [`utils`](uti
 ![nested](https://user-images.githubusercontent.com/42152221/195899890-c710096e-d218-4e5a-991e-a560b88b5dc2.png)
 ![distanceCircles](https://user-images.githubusercontent.com/42152221/195899520-c4f304d7-1b65-480f-bc9e-339b34d0bf68.png)
 ![percolation](https://user-images.githubusercontent.com/42152221/195900524-00a318d4-46b9-4c6a-ba98-6df491e7d42c.png)
+![nonoverlap-OneFourth-itr3](https://github.com/zfengg/SelfAffine/assets/42152221/5c9318e4-d1be-4eae-9762-d51f3457e0a4)
