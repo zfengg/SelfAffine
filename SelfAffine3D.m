@@ -6,31 +6,36 @@ tic
 %% settings
 % IFS linear parts
 linearMats = {diag([1/6, 1/4, 1/3]), ...
-        diag([1/2, 1/2, 1/3]), ...
-            diag([1/3, 1/4, 2/3]), ...
-            diag([1/2, 1/4, 1/3])};
+    diag([1/2, 1/2, 1/3]), ...
+    diag([1/3, 1/4, 2/3]), ...
+    diag([1/2, 1/4, 1/3])};
 
 % IFS translations
 translations = {[0 0 0]', ...
-            [1/6 1/4 0]', ...
-                [2/3, 3/4, 1/3]', ...
-                [1/6, 0, 0]'};
+    [1/6 1/4 0]', ...
+    [2/3, 3/4, 1/3]', ...
+    [1/6, 0, 0]'};
 
 % initial polyhedron for iteration
 shapeInit = [0 0 0; 1 0 0; 1 1 0; 0 1 0; 0 0 1; 1 0 1; 1 1 1; 0 1 1]';
 shapeInitFaces = [4 8 5 1; 1 5 6 2; 2 6 7 3; 3 7 8 4; 5 8 7 6; 1 4 3 2];
 
 % iteration time
-numItrs = 4;
+numItrs = 1;
 
 % plot settings
-showTitle = true;
-showFirstItrs = true;
-numFirstItrs = 2;
-alphaFaces = 0.6;
+showTitle = false;
+showFirstItrs = false;
+numFirstItrs = 3;
+alphaFaces = 0.2;
 colorFaces = 'k';
-colorEdges = 'w'; % 'none'
+colorEdges = 'k'; % 'none'
 fixAxisRatio = true;
+
+rmWhite = true;
+saveFigures = true;
+filename = "BMsponge"; % the prefix for saved files
+fileExt = ".png"; % file format: .pdf, .png, .jpg, .fig
 
 %% Examples
 % ---------------------------------- sponges --------------------------------- %
@@ -76,6 +81,25 @@ fixAxisRatio = true;
 %                 [1/6, 0, 0]'};
 % shapeInit = [0 0 0; 1 0 0; 1 1 0; 0 1 0; 0 0 1; 1 0 1; 1 1 1; 0 1 1]';
 % shapeInitFaces = [4 8 5 1; 1 5 6 2; 2 6 7 3; 3 7 8 4; 5 8 7 6; 1 4 3 2];
+
+
+% Bedford-McMullen sponge
+ratios = [1/5, 1/3, 1/2];
+selectMaps = {[0, 0, 0],...
+    [2, 1, 0],...
+    [4, 0, 1],...
+    [1, 2, 0],...
+    [3, 0, 1],...
+    [4, 2, 1]};
+
+linearMats = cell(1, length(selectMaps));
+translations = cell(1, length(selectMaps));
+for i = 1:1:length(selectMaps)
+    linearMats{i} = diag(ratios);
+    translations{i} = (selectMaps{i} .* ratios)';
+end
+shapeInit = [0 0 0; 1 0 0; 1 1 0; 0 1 0; 0 0 1; 1 0 1; 1 1 1; 0 1 1]';
+shapeInitFaces = [4 8 5 1; 1 5 6 2; 2 6 7 3; 3 7 8 4; 5 8 7 6; 1 4 3 2];
 
 % --------------------------------- pyramids --------------------------------- %
 % % Sierpinski pyramid
@@ -146,6 +170,15 @@ end
 
 if showTitle
     title(['Iteration time = ', num2str(numItrs)], 'Interpreter', 'latex');
+end
+
+if saveFigures
+    if ~rmWhite
+        saveas(gcf, filename + "-itr" + num2str(numItrs) + fileExt)
+    else
+        exportgraphics(gcf, filename + "-itr" + num2str(numItrs) + fileExt,...
+            'BackgroundColor', 'none')
+    end
 end
 
 if showFirstItrs && numItrs >= numFirstItrs
