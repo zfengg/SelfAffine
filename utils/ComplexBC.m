@@ -1,31 +1,35 @@
-% A simple script to plot self-affine sets by iterating polygons
-% Zhou Feng @ 2020-10-12
+% A simple script to plot complex Bernoulli convolutions by iterating polygons
+%
+% Zhou Feng @ 2024-06-05
 clc, clf, clear
 tic
 
 %% settings
+theta = 1/pi;
+rho = 4/5;
+
 % IFS linear parts
-linearMats = {[-1/4 1/5; 1/4 1/5], [-1/4 1/3; 1/4 1/3]};
+linearMats = {rho * [cos(theta * 2 * pi) -sin(theta * 2 * pi); sin(theta * 2 * pi) cos(theta * 2 * pi)],...
+        rho * [cos(theta * 2 * pi) -sin(theta * 2 * pi); sin(theta * 2 * pi) cos(theta * 2 * pi)]};
 
 % IFS translations
-translations = {[0; 0], ...
-    [1; 0]};
+translations = {[-1; 0], ...
+            [1; 0]};
 
 % initial polygon for iteration
-shapeInit = [-1 2 2 -1;
-    -1/2 -1/2 1 1];
+shapeInit = [0 1 1 0;
+        0 0 1 1];
 
-numItrs = 5; % iteration time
+numItrs = 14; % iteration time
 
 % plot settings
 showTitle = true;
+showFirstItrs = false;
+numFirstItrs = 2;
 alphaFaces = 1;
+colorFaces = 'k';
+colorEdges = 'none';
 fixAxisRatio = true;
-shouldFill = true;
-allBlack = false;
-% grid
-showGrid = false;
-widthGrid = 0.05;
 
 %% Examples
 % ---------------------------------- gaskets --------------------------------- %
@@ -57,8 +61,10 @@ widthGrid = 0.05;
 % shapeInit = [0 3 3 0; 0 0 3 3];
 
 % % Bedford-McMullen carpet
-% BMselect = [0 1 0;
-%         1 0 1]; % select positions
+% BMselect = [1 0 0;
+%         0 1 0;
+%         0 0 1;
+%         1 0 0]; % select positions
 % [BMv, BMh] = size(BMselect);
 % BMmat = flipud(BMselect);
 % [oneRows, oneCols] = find(BMmat > 0);
@@ -166,15 +172,6 @@ sizeIFS = length(linearMats);
 numInitPts = size(shapeInit, 2);
 shapeInitFaces = 1:numInitPts;
 
-% colors
-colorsRGB = {[0 0.4470 0.7410],...
-    [0.8500 0.3250 0.0980],...
-    [0.9290 0.6940 0.1250],...
-    [0.4940 0.1840 0.5560],...
-    [0.4660 0.6740 0.1880],...
-    [0.3010 0.7450 0.9330],...
-    [0.6350 0.0780 0.1840]};
-
 %% Generate points
 ptsInit = shapeInit;
 ptsNow = ptsInit;
@@ -183,56 +180,59 @@ ptsTotal = cell(numItrs + 1, 1);
 ptsTotal{1} = ptsInit;
 
 for levelNow = 1:numItrs
-    
+
     ptsTmp = zeros(spaceDim, sizeNow * sizeIFS);
-    
+
     for indexFct = 1:sizeIFS
         ptsTmp(:, (indexFct - 1) * sizeNow + 1:indexFct * sizeNow) = ...
             linearMats{indexFct} * ptsNow + translations{indexFct};
     end
-    
+
     ptsNow = ptsTmp;
     sizeNow = size(ptsNow, 2);
-    
+
     ptsTotal{levelNow + 1} = ptsNow;
 end
 
 %% Plot
 numShapes = sizeNow / numInitPts;
+facesPlot = kron(ones(numShapes, 1), shapeInitFaces) + ...
+    kron((0:(numShapes - 1))' * numInitPts, ones(numInitFaces, 1));
 figure(1)
-for i = 1:numItrs+1
-    sizeTmp = size(ptsTotal{i}, 2);
-    numShapesTmp = sizeTmp / numInitPts;
-    facesPlot = kron(ones(numShapesTmp, 1), shapeInitFaces) + ...
-        kron((0:(numShapesTmp - 1))' * numInitPts, ones(numInitFaces, 1));
-    if allBlack
-        colorEdges = 'k';
-    else
-        colorEdges = colorsRGB{mod(i+6, length(colorsRGB))+1};
-    end
-    if i == numItrs + 1 && shouldFill
-        colorFaces = colorEdges;
-    else
-        colorFaces = 'none';
-    end
-    patch('Faces', facesPlot, ...
-        'Vertices', ptsTotal{i}', ...
-        'FaceColor', colorFaces, ...
-        'EdgeColor', colorEdges, ...
-        'FaceAlpha', alphaFaces)
-    hold on
-end
+patch('Faces', facesPlot, ...
+    'Vertices', ptsNow', ...
+    'FaceColor', colorFaces, ...
+    'EdgeColor', colorEdges, ...
+    'FaceAlpha', alphaFaces)
 set(gca, 'XColor', 'none', 'YColor', 'none')
-if showGrid
-    grid on
-    set(gca, 'xtick', min(shapeInit(1,:)):widthGrid:max(shapeInit(1,:)))
-    set(gca, 'ytick', min(shapeInit(2,:)):widthGrid:max(shapeInit(2,:)))
-end
 if fixAxisRatio
     axis image
 end
+
 if showTitle
     title(['Iteration time = ', num2str(numItrs)], 'Interpreter', 'latex');
+end
+
+if showFirstItrs && numItrs >= numFirstItrs
+    figure(2)
+
+    for i = 1:numFirstItrs
+        subplot(1, numFirstItrs, i)
+        sizeTmp = size(ptsTotal{i}, 2);
+        numShapesTmp = sizeTmp / numInitPts;
+        facesPlot = kron(ones(numShapesTmp, 1), shapeInitFaces) + ...
+            kron((0:(numShapesTmp - 1))' * numInitPts, ones(numInitFaces, 1));
+        patch('Faces', facesPlot, ...
+            'Vertices', ptsTotal{i}', ...
+            'FaceColor', colorFaces, ...
+            'EdgeColor', colorEdges, ...
+            'FaceAlpha', alphaFaces)
+        set(gca, 'XColor', 'none', 'YColor', 'none')
+        if fixAxisRatio
+            axis image
+        end
+    end
+
 end
 
 %% Show param

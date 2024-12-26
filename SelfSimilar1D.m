@@ -4,14 +4,14 @@ clc, clf, clear
 tic
 
 %% settings
-ratios = [1/2, 1/3, 1/4];
-trans = [0, 1/3, 3/4];
-intervalInit = [0, 1];
+ratios = [1/pi, 1/pi, 1/pi];
+trans = [0, 1, sqrt(2)];
+intervalInit = [0, pi * sqrt(2) / (pi - 1)];
 
 numItrs = 7; % iteration time
 
 % plot settings
-showTitle = true;
+showTitle = false;
 showFirstItrs = true;
 numFirstItrs = numItrs;
 color = 'k';
@@ -27,6 +27,12 @@ thickness = 30;
 % ratios = [1/2, 1/3, 1/4];
 % trans = [0, 1/3, 3/4];
 % intervalInit = [0, 1];
+
+% Bernoulli convolutions
+ratio = (sqrt(5) - 1) / 2;
+ratios = ratio * ones(1, 2);
+trans = [-1, +1];
+intervalInit = [-1/(1-ratio), 1/(1-ratio)];
 
 %% prepare params & error handling
 isCompact = false;

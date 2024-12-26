@@ -74,3 +74,6 @@ octave-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/matlab
 .vscode
+
+# outputed imgs
+utils/imgs

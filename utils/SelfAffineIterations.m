@@ -24,7 +24,7 @@ translations = {[1.5; 0.2],...
 shapeInit = [0 3 3 0;
     0 0 2 2];
 
-numItrs = 8; % iteration time
+numItrs = 6; % iteration time
 
 % plot settings
 % format
@@ -36,11 +36,11 @@ alphaFaces = 0.3/(numItrs+1) * (1:1:numItrs+1);
 colorEdges = repelem("black", numItrs+1);
 alphaEdges = ones(1, numItrs + 1);
 % figures
-showItrs = false; % show intermediate iterations
+showItrs = true; % show intermediate iterations
 showHistory = false; % plot previous iterations
-saveFigures = false;
-filename = "nonoverlap-OneFourth"; % the prefix for saved files
-fileExt = ".pdf"; % file format: .pdf, .png, .jpg, .fig
+saveFigures = true;
+filename = "imgs/nonoverlap"; % the prefix for saved files
+fileExt = ".png"; % file format: .pdf, .png, .jpg, .fig
 fixBoundary = true; % fix the boundary as the initial polygon
 rmWhite = true;
 % grid
@@ -106,12 +106,10 @@ shapeInit = [0 1 1 0;
 % end
 % translations = {[0;0], [1;0], [2;0], [0;1], [2;1], [0;2], [1;2], [2;2]};
 % shapeInit = [0 3 3 0; 0 0 3 3];
-
+% 
 % % Bedford-McMullen carpet
-% BMselect = [1 0 0;
-%         0 1 0;
-%         0 0 1;
-%         1 0 0]; % select positions
+% BMselect = [0 1 0;
+%         1 0 1]; % select positions
 % [BMv, BMh] = size(BMselect);
 % BMmat = flipud(BMselect);
 % [oneRows, oneCols] = find(BMmat > 0);

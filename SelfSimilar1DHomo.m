@@ -7,20 +7,19 @@ tic
 % num of maps
 numMaps = 2;
 % contract ratio
-ratio = 1/3;
+ratio = (sqrt(5)-1) / 2;
 % translations
-trans = [0, 2/3];
+trans = [-1, 1];
 % initial inverval
-intervalInit = [0, 1];
-
-numItrs = 5; % iteration time
+intervalInit = [-1/(1-ratio), 1/(1-ratio)];
+numItrs = 1; % iteration time
 
 % plot settings
-showTitle = true;
+showTitle = false;
 showFirstItrs = true;
 numFirstItrs = numItrs;
 color = 'k';
-thickness = 30;
+thickness = 20;
 
 %% examples
 % % mid-third Cantor set
