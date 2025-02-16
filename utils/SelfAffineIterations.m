@@ -4,27 +4,12 @@ clc, clf, clear
 tic
 
 %% settings
-% IFS linear parts
-numMaps = 3;
-rotDeg = [0, 17, 90]; % unit in degree in [0, 360]
-ratios = 1/3 * ones(1, numMaps);
-linearMats = cell(1, numMaps);
-for i = 1:numMaps
-    linearMats{i} = ratios(i) * [cosd(rotDeg(i)) -sind(rotDeg(i));...
-        sind(rotDeg(i)) cosd(rotDeg(i))];
-end
-% linearMats = {[-1/4 1/5; 1/4 1/5], [-1/4 1/3; 1/4 1/3]};
+a = 3/5; b = 5/7;
+linearMats = {[b 0; 0 a], [a 0; 0 b]};
+translations = {[0; 0], [(b+1-a)/2; (a+1-b)/2]};
+shapeInit = [0 1 1 0; 0 0 1 1];
 
-% IFS translations
-translations = {[1.5; 0.2],...
-    [0.25; 0.4],...
-    [2.7; 0.6]};
-
-% initial polygon for iteration
-shapeInit = [0 3 3 0;
-    0 0 2 2];
-
-numItrs = 6; % iteration time
+numItrs = 3; % iteration time
 
 % plot settings
 % format
@@ -38,7 +23,7 @@ alphaEdges = ones(1, numItrs + 1);
 % figures
 showItrs = true; % show intermediate iterations
 showHistory = false; % plot previous iterations
-saveFigures = true;
+saveFigures = false;
 filename = "imgs/test"; % the prefix for saved files
 fileExt = ".png"; % file format: .pdf, .png, .jpg, .fig
 fixBoundary = true; % fix the boundary as the initial polygon
@@ -49,20 +34,20 @@ widthGrid = 0.05;
 
 %% Examples
 % % --- Hochman's talk ----------
-% non-overlap self-similar set
-numMaps = 3;
-rotDeg = [0, 17, 60]; % unit in degree in [0, 360]
-ratios = 1/4 * ones(1, numMaps);
-linearMats = cell(1, numMaps);
-for i = 1:numMaps
-    linearMats{i} = ratios(i) * [cosd(rotDeg(i)) -sind(rotDeg(i));...
-        sind(rotDeg(i)) cosd(rotDeg(i))];
-end
-translations = {[1/10; 6/10],...
-    [1/5; 1/8],...
-    [4/5; 3/10]};
-shapeInit = [0 1 1 0;
-    0 0 1 1];
+% % non-overlap self-similar set
+% numMaps = 3;
+% rotDeg = [0, 17, 60]; % unit in degree in [0, 360]
+% ratios = 1/4 * ones(1, numMaps);
+% linearMats = cell(1, numMaps);
+% for i = 1:numMaps
+%     linearMats{i} = ratios(i) * [cosd(rotDeg(i)) -sind(rotDeg(i));...
+%         sind(rotDeg(i)) cosd(rotDeg(i))];
+% end
+% translations = {[1/10; 6/10],...
+%     [1/5; 1/8],...
+%     [4/5; 3/10]};
+% shapeInit = [0 1 1 0;
+%     0 0 1 1];
 
 % % overlapping self-similar set
 % numMaps = 3;
@@ -106,7 +91,7 @@ shapeInit = [0 1 1 0;
 % end
 % translations = {[0;0], [1;0], [2;0], [0;1], [2;1], [0;2], [1;2], [2;2]};
 % shapeInit = [0 3 3 0; 0 0 3 3];
-% 
+%
 % % Bedford-McMullen carpet
 % BMselect = [0 1 0;
 %         1 0 1]; % select positions
@@ -199,6 +184,51 @@ shapeInit = [0 1 1 0;
 % translations = {[0; 0], [0.75; 0], [0.75; 0.75], [0; 0.75], [0.25; 0.25]};
 % shapeInit = [0 1 1 0; 0 0 1 1];
 
+% % Overlapping carpet with symmetric ratios
+% a = 3/5; b = 5/7;
+% linearMats = {[b 0; 0 a], [a 0; 0 b]};
+% translations = {[0; 0], [(b+1-a)/2; (a+1-b)/2]};
+% shapeInit = [0 1 1 0; 0 0 1 1];
+
+% % An exmple for saturation on the diagonal direction
+% lambda = 5/7; n = 5;
+% if lambda < 1/sqrt(2) || lambda^n >= 1/3
+%     warning("This is not an example of saturation on diagonal.")
+% end
+% ratio = lambda ^ n;
+% lambdaPowers = zeros(1, n);
+% for i = 1:n
+%     lambdaPowers(i) = lambda ^ (i-1);
+% end
+% numMaps = 2 ^ n;
+% linearMats = cell(1, numMaps);
+% translations = cell(1, numMaps);
+% curMap = 1;
+% curNode = zeros(1, n);
+% while curNode(end) <= 1
+%     % assign the map
+%     linearMats{curMap} = ratio * eye(2);
+%     translations{curMap} = [dot(curNode, lambdaPowers);...
+%         dot(curNode, lambdaPowers)];
+%     if curMap == 1
+%         translations{curMap} = [dot(ones(1,n), lambdaPowers); 0];
+%     end
+%     if curMap == numMaps
+%         translations{curMap} = [0; dot(ones(1,n), lambdaPowers)];
+%     end
+%     curMap = curMap + 1;
+%     % update node
+%     curNode(1) = curNode(1) + 1;
+%     i = 1;
+%     while curNode(i) > 1 && i < n
+%         curNode(i) = 0;
+%         curNode(i+1) = curNode(i+1) + 1;
+%         i = i + 1;
+%     end
+% end
+% shapeInit = [0 1/(1 - lambda) 1/(1 - lambda) 0;...
+%              0 0 1/(1 - lambda) 1/(1 - lambda)];
+
 %% Error handling
 isCompactible = false;
 
@@ -234,17 +264,17 @@ ptsTotal = cell(numItrs + 1, 1);
 ptsTotal{1} = ptsInit;
 
 for levelNow = 1:numItrs
-    
+
     ptsTmp = zeros(spaceDim, sizeNow * sizeIFS);
-    
+
     for indexFct = 1:sizeIFS
         ptsTmp(:, (indexFct - 1) * sizeNow + 1:indexFct * sizeNow) = ...
             linearMats{indexFct} * ptsNow + translations{indexFct};
     end
-    
+
     ptsNow = ptsTmp;
     sizeNow = size(ptsNow, 2);
-    
+
     ptsTotal{levelNow + 1} = ptsNow;
 end
 
@@ -260,7 +290,7 @@ for f = startF:numItrs +1
     else
         figure(1)
     end
-    
+
     startPlot = 1;
     if ~showHistory
         startPlot = f;
