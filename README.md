@@ -1,6 +1,6 @@
 # SelfAffine
 
-A collection of simple [matlab](https://ww2.mathworks.cn/en/products/matlab.html) scripts to plot [self-affine sets](https://en.wikipedia.org/wiki/Self-similarity#:~:text=In%20mathematics%2C%20a%20self%2Dsimilar,statistical%20properties%20at%20many%20scales.) by iterating shapes with [IFS](https://en.wikipedia.org/wiki/Iterated_function_system) in a deterministic way. For a probabilistic way, please refer to [zfengg/PlotIFS.jl](https://cuhkfractal.github.io/pages/PlotIFS.jl).
+A collection of simple [matlab](https://ww2.mathworks.cn/en/products/matlab.html) scripts to plot [self-affine sets](https://en.wikipedia.org/wiki/Self-similarity#:~:text=In%20mathematics%2C%20a%20self%2Dsimilar,statistical%20properties%20at%20many%20scales.) by iterating shapes with [IFS](https://en.wikipedia.org/wiki/Iterated_function_system) in a deterministic way. For a probabilistic way, please refer to [zfengg/PlotIFS.jl](https://zfengg.github.io/assets/PlotIFS.html).
 
 ## Usage
 Straight steps to use:
@@ -17,7 +17,7 @@ The names of scripts explain which dimension of the IFS they are applied for.
   - [`SelfAffine2D.m`](SelfAffine2D.m): 2D self-affine set.
   - [`SelfSimilar1D.m`](SelfSimilar1D.m): 1D self-similar set.
   - [`SelfSimilar1DHomo.m`](SelfSimilar1DHomo.m): 1D self-similar set generated from a homogeneous IFS.
- 
+
 Also, some scripts for special purposes are included in the folder [`utils`](utils).
 
 ## Some examples
