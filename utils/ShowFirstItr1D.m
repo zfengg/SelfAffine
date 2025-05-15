@@ -12,11 +12,11 @@ thickness = 15;
 downShift = 0.01;
 constNormalize = 5000;
 colorMain = 'k';
-colorAlert = 'k';
+colorAlert = 'b';
 
 % export
 saveFigures = true;
-filename = "BC-EO"; % the prefix for saved files
+filename = "imgs/BC-EO"; % the prefix for saved files
 fileExt = ".png"; % file format: .pdf, .png, .jpg, .fig
 rmWhite = true;
 
