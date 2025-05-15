@@ -4,12 +4,16 @@ clc, clf, clear
 tic
 
 %% settings
-a = 3/5; b = 5/7;
+% a = 3/5; b = 5/7;
+a = 3/5; b = 2/3;
+% a = 3/5; b = 5/7;
+% a = 3/11; b = 11/13;
+% a = 5/17; b = 17/19;
 linearMats = {[b 0; 0 a], [a 0; 0 b]};
 translations = {[0; 0], [(b+1-a)/2; (a+1-b)/2]};
 shapeInit = [0 1 1 0; 0 0 1 1];
 
-numItrs = 3; % iteration time
+numItrs = 1; % iteration time
 
 % plot settings
 % format
@@ -21,7 +25,7 @@ alphaFaces = 0.3/(numItrs+1) * (1:1:numItrs+1);
 colorEdges = repelem("black", numItrs+1);
 alphaEdges = ones(1, numItrs + 1);
 % figures
-showItrs = true; % show intermediate iterations
+showItrs = false; % show intermediate iterations
 showHistory = false; % plot previous iterations
 saveFigures = false;
 filename = "imgs/test"; % the prefix for saved files
@@ -228,6 +232,12 @@ widthGrid = 0.05;
 % end
 % shapeInit = [0 1/(1 - lambda) 1/(1 - lambda) 0;...
 %              0 0 1/(1 - lambda) 1/(1 - lambda)];
+
+% % graph of limit Rademacher function
+% lambda = (sqrt(5) - 1)/2; % lambda in (1/2, 1)
+% linearMats = {[1/2 0; 0 lambda], [1/2 0; 0 lambda]};
+% translations = {[0; -1], [1/2; 1]};
+% shapeInit = [0 1 1 0; -1/(1-lambda) -1/(1-lambda) 1/(1-lambda) 1/(1-lambda)];
 
 %% Error handling
 isCompactible = false;
